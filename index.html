@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAW CODE — 30 дней · Microstep Manual</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><strong>RAW CODE</strong><span>30 ДНЕЙ · ПОШАГОВО</span></div>
+  <div class="progress-card"><div class="progress-head"><b>Прогресс</b><strong id="progressText">0%</strong></div><div class="progress-bar"><i id="progressBar"></i></div><small id="progressSub">0 из 30 дней</small></div>
+  <button class="continue-btn" id="continueBtn">▶ Продолжить</button>
+  <div class="side-nav-label">Навигация</div><nav class="side-nav"><button data-scroll="roadmap">Путь курса</button><button data-scroll="days">Все 30 дней</button><button data-scroll="catalog">Каталог команд</button><button data-scroll="lab">Code Lab</button><a href="final-site/index.html" target="_blank" rel="noopener">Итоговый сайт ↗</a></nav><div class="nav-label">Уроки</div><nav id="dayNav"></nav>
+</aside>
+<main class="main">
+<header class="topbar"><button class="icon-btn" id="menuBtn">☰</button><div class="top-brand"><b>RAW CODE</b><span>HTML → CSS → JavaScript</span></div><nav class="top-nav" aria-label="Навигация"><button data-scroll="roadmap">Путь</button><button data-scroll="days">30 дней</button><button data-scroll="catalog">Каталог</button><button data-scroll="lab">Code Lab</button><a href="final-site/index.html" target="_blank" rel="noopener">Итоговый сайт ↗</a></nav><button class="ghost small" id="resetBtn">Сбросить</button></header>
+<section class="hero"><div><span class="eyebrow">MICROSTEP MANUAL</span><h1>Не копируй.<br><em>Понимай и пиши.</em></h1><p>Каждый урок разбит на маленькие действия: <b>что открыть → что написать → что это значит → что изменится → как связать с предыдущим кодом → как проверить результат.</b></p><div class="hero-actions"><button class="primary" id="heroStart">Начать обучение →</button><button class="ghost" id="roadmapBtn">Показать путь</button></div></div><div class="hero-note"><b>Правило курса</b><span>1. Одна маленькая задача</span><span>2. Пишем руками</span><span>3. Сохраняем</span><span>4. Смотрим результат</span><span>5. Объединяем</span><span>6. Ищем ошибку</span></div></section>
+<section class="section" id="roadmap"><div class="section-head"><span>ПУТЬ</span><h2>Один сайт → 30 шагов</h2><p>Один проект проходит весь путь от пустого HTML до интерактивного сайта. День 30 — новый экзаменационный проект.</p></div><div class="phase-grid" id="phaseGrid"></div><div class="roadmap-grid" id="roadmapGrid"></div></section>
+<section class="section" id="days"><div class="section-head section-head-row"><div><span>МАТЕРИАЛЫ</span><h2>Все 30 дней</h2><p>Нажми любой день. Урок откроется на весь экран, а полный эталонный код будет только в самом конце.</p></div><button class="section-toggle" id="daysCollapse">Свернуть</button></div><div id="daysBody"><div class="day-grid" id="dayGrid"></div></div></section>
+<section class="section" id="catalog"><div class="section-head"><span>СПРАВОЧНИК</span><h2>Каталог команд</h2><p>Не просто список: что означает команда, когда использовать, куда вставлять, короткий пример и типичная ошибка.</p></div><div class="catalog-tools"><button class="catalog-collapse" id="catalogCollapse">Свернуть каталог</button><input id="catalogSearch" type="search" placeholder="Например: h1, img, flex, grid, querySelector…"><div class="tabs"><button class="tab active" data-cat="HTML">HTML</button><button class="tab" data-cat="CSS">CSS</button><button class="tab" data-cat="JS">JavaScript</button></div></div><div id="catalogBody"><div id="catalogList" class="catalog-list"></div></div></section>
+<section class="section" id="lab"><div class="section-head"><span>ПРАКТИКА</span><h2>Code Lab</h2><p>Можно собрать комбинацию из урока, увидеть результат и получить базовую диагностику. Это учебная площадка, а не замена VS Code.</p></div><div class="lab-tabs"><button class="lab-tab active" data-editor="html">HTML</button><button class="lab-tab" data-editor="css">CSS</button><button class="lab-tab" data-editor="js">JavaScript</button></div><div class="lab-grid"><div class="editors"><div class="editor-pane active" data-pane="html"><textarea id="labHtml" spellcheck="false"></textarea></div><div class="editor-pane" data-pane="css"><textarea id="labCss" spellcheck="false"></textarea></div><div class="editor-pane" data-pane="js"><textarea id="labJs" spellcheck="false"></textarea></div><div class="lab-actions"><button class="primary" id="runLab">▶ Запустить и проверить</button><button class="ghost" id="exampleLab">Загрузить пример</button><button class="ghost" id="clearLab">Очистить</button></div></div><div class="preview-box"><div class="preview-head"><b>Результат</b><span id="labStatus">Готово</span></div><iframe id="labPreview" title="Предпросмотр" sandbox="allow-scripts"></iframe><div id="labDiagnostics" class="diagnostics"><div class="empty">После запуска здесь появятся ошибки и способы исправления.</div></div></div></div></section>
+<section class="section" id="resources"><div class="section-head"><span>ДОПОЛНИТЕЛЬНО</span><h2>Материалы для продолжения</h2></div><div class="resources-grid" id="resourcesGrid"></div></section>
+<section class="final-site-card" id="finalSite"><div><span>ПОСЛЕ КУРСА</span><h2>Открой сайт, который ты научишься собирать</h2><p>Готовый пример проекта находится внутри этой папки. После прохождения 30 дней используй его как ориентир и сравнивай со своей собственной работой.</p></div><a class="primary final-site-btn" href="final-site/index.html" target="_blank" rel="noopener">Открыть итоговый сайт ↗</a></section>
+<footer class="footer">RAW CODE · 30 дней → один настоящий сайт · <a href="#finalSite">Итоговый сайт</a></footer>
+</main></div>
+<div class="overlay" id="overlay"></div>
+<section class="lesson-modal" id="lessonModal" aria-hidden="true">
+  <div class="lesson-shell">
+    <div class="lesson-top"><div><span id="lessonDay"></span><h2 id="lessonTitle"></h2><p id="lessonGoal"></p><div class="lesson-progress"><i id="lessonProgressBar"></i></div></div><button class="close" id="closeLesson">×</button></div>
+    <div class="lesson-content" id="lessonContent"></div>
+    <div class="lesson-bottom"><button class="ghost" id="prevDay">← Предыдущий</button><button class="primary" id="completeDay">Отметить ✓</button><button class="ghost" id="nextDay">Следующий →</button></div>
+  </div>
+</section>
+<script src="course-data.js"></script><script src="app.js"></script>
+</body>
+</html>
