@@ -7,17 +7,67 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="app">
+<div class="auth-screen" id="authScreen">
+  <div class="auth-atmosphere" aria-hidden="true">
+    <div class="auth-orb orb-one"></div><div class="auth-orb orb-two"></div>
+    <div class="auth-grid"></div>
+    <pre class="auth-code code-left">&lt;section class="hero"&gt;
+  &lt;h1&gt;RAW CODE&lt;/h1&gt;
+  &lt;p&gt;Build. Learn. Create.&lt;/p&gt;
+&lt;/section&gt;</pre>
+    <pre class="auth-code code-right">.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: 64px;
+}</pre>
+  </div>
+  <div class="auth-card">
+    <div class="auth-brand">RAW <span>CODE</span></div>
+    <div id="loginView">
+      <div class="auth-kicker">30 ДНЕЙ · ПОШАГОВО</div>
+      <h1>Войти в курс</h1>
+      <p>Введи свой логин и пароль, чтобы открыть обучение и свой прогресс.</p>
+      <form id="loginForm">
+        <label>Логин<input id="loginUsername" autocomplete="username" required minlength="3"></label>
+        <label>Пароль<div class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" required><button type="button" data-toggle-password="loginPassword">Показать</button></div></label>
+        <div class="auth-error" id="loginError"></div>
+        <button class="auth-primary" type="submit">Войти →</button>
+      </form>
+      <button class="auth-link" id="showRegister">Нет аккаунта? <b>Зарегистрироваться</b></button>
+    </div>
+    <div id="registerView" hidden>
+      <div class="auth-kicker">НОВЫЙ АККАУНТ</div>
+      <h1>Регистрация</h1>
+      <p>Придумай логин и пароль. Они будут сохранены в этом браузере.</p>
+      <form id="registerForm">
+        <label>Логин<input id="registerUsername" autocomplete="username" required minlength="3" maxlength="24"></label>
+        <label>Пароль<div class="password-wrap"><input id="registerPassword" type="password" autocomplete="new-password" required minlength="6"><button type="button" data-toggle-password="registerPassword">Показать</button></div></label>
+        <label>Повторить пароль<input id="registerPassword2" type="password" autocomplete="new-password" required minlength="6"></label>
+        <div class="auth-error" id="registerError"></div>
+        <button class="auth-primary" type="submit">Создать аккаунт →</button>
+      </form>
+      <button class="auth-link" id="showLogin">Уже есть аккаунт? <b>Войти</b></button>
+    </div>
+    <div class="auth-security">Учебная авторизация без сервера. Пароли хранятся локально в браузере и не подходят для важных реальных аккаунтов.</div>
+  </div>
+</div>
+<div class="app" id="app">
 <aside class="sidebar" id="sidebar">
   <div class="brand"><strong>RAW CODE</strong><span>30 ДНЕЙ · ПОШАГОВО</span></div>
-  <div class="progress-card"><div class="progress-head"><b>Прогресс</b><strong id="progressText">0%</strong></div><div class="progress-bar"><i id="progressBar"></i></div><small id="progressSub">0 из 30 дней</small></div>
+  <div class="progress-card"><div class="progress-head"><b>Пройдено дней</b><strong id="progressText">0%</strong></div><div class="progress-bar"><i id="progressBar"></i></div><small id="progressSub">0 из 30 дней</small><div class="days-counter"><span id="completedDaysBig">0</span><span>/ 30 дней пройдено</span></div></div>
   <button class="continue-btn" id="continueBtn">▶ Продолжить</button>
   <div class="side-nav-label">Навигация</div><nav class="side-nav"><button data-scroll="roadmap">Путь курса</button><button data-scroll="days">Все 30 дней</button><button data-scroll="catalog">Каталог команд</button><button data-scroll="lab">Code Lab</button><a href="final-site/index.html" target="_blank" rel="noopener">Итоговый сайт ↗</a></nav><div class="nav-label">Уроки</div><nav id="dayNav"></nav>
 </aside>
 <main class="main">
-<header class="topbar"><button class="icon-btn" id="menuBtn">☰</button><div class="top-brand"><b>RAW CODE</b><span>HTML → CSS → JavaScript</span></div><nav class="top-nav" aria-label="Навигация"><button data-scroll="roadmap">Путь</button><button data-scroll="days">30 дней</button><button data-scroll="catalog">Каталог</button><button data-scroll="lab">Code Lab</button><a href="final-site/index.html" target="_blank" rel="noopener">Итоговый сайт ↗</a></nav><button class="ghost small" id="resetBtn">Сбросить</button></header>
-<section class="hero"><div><span class="eyebrow">MICROSTEP MANUAL</span><h1>Не копируй.<br><em>Понимай и пиши.</em></h1><p>Каждый урок разбит на маленькие действия: <b>что открыть → что написать → что это значит → что изменится → как связать с предыдущим кодом → как проверить результат.</b></p><div class="hero-actions"><button class="primary" id="heroStart">Начать обучение →</button><button class="ghost" id="roadmapBtn">Показать путь</button></div></div><div class="hero-note"><b>Правило курса</b><span>1. Одна маленькая задача</span><span>2. Пишем руками</span><span>3. Сохраняем</span><span>4. Смотрим результат</span><span>5. Объединяем</span><span>6. Ищем ошибку</span></div></section>
-<section class="section" id="roadmap"><div class="section-head"><span>ПУТЬ</span><h2>Один сайт → 30 шагов</h2><p>Один проект проходит весь путь от пустого HTML до интерактивного сайта. День 30 — новый экзаменационный проект.</p></div><div class="phase-grid" id="phaseGrid"></div><div class="roadmap-grid" id="roadmapGrid"></div></section>
+<header class="topbar"><button class="icon-btn" id="menuBtn">☰</button><div class="top-brand"><b>RAW CODE</b><span>HTML → CSS → JavaScript</span></div><nav class="top-nav" aria-label="Навигация"><button data-scroll="roadmap">Путь</button><button data-scroll="days">30 дней</button><button data-scroll="catalog">Каталог</button><button data-scroll="lab">Code Lab</button><a href="final-site/index.html" target="_blank" rel="noopener">Итоговый сайт ↗</a></nav><div class="top-user"><span id="currentUser"></span><button class="ghost small" id="logoutBtn">Выйти</button><button class="ghost small" id="resetBtn">Сбросить</button></div></header>
+<section class="hero"><div><span class="eyebrow">MICROSTEP MANUAL</span><h1>Не копируй.<br><em>Понимай и пиши.</em></h1><p>Каждый урок разбит на маленькие действия: <b>что открыть → что написать → что это значит → что изменится → как связать с предыдущим кодом → как проверить результат.</b></p><div class="hero-actions"><button class="primary" id="heroStart">Начать обучение →</button><button class="ghost" id="roadmapBtn">Показать путь</button></div></div><div class="hero-code"><div class="code-head"><span>index.html</span><span>CSS → JS</span></div><pre><span>&lt;section</span> <em>class="hero"</em><span>&gt;</span>
+  <span>&lt;h1&gt;</span>RAW CODE<span>&lt;/h1&gt;</span>
+<span>&lt;/section&gt;</span></pre><div class="code-caret">● Пишем → проверяем → объединяем</div></div><div class="hero-note"><b>Правило курса</b><span>1. Одна маленькая задача</span><span>2. Пишем руками</span><span>3. Сохраняем</span><span>4. Смотрим результат</span><span>5. Объединяем</span><span>6. Ищем ошибку</span></div></section>
+<section class="section" id="roadmap"><div class="section-head"><span>ПУТЬ КУРСА</span><h2>Один сайт → 30 шагов</h2><p>Один проект проходит путь от пустого HTML до интерактивного сайта. Каждый день — одна понятная задача, маленький фрагмент кода и результат. День 30 — новый экзаменационный проект.</p></div><div class="course-principle"><div><b>Как учимся</b><span>Код → результат → связь → следующий код</span></div><div><b>Главное</b><span>Не копируем большой блок. Пишем маленькими частями и понимаем каждую.</span></div></div><div class="phase-grid" id="phaseGrid"></div><div class="roadmap-grid" id="roadmapGrid"></div></section>
 <section class="section" id="days"><div class="section-head section-head-row"><div><span>МАТЕРИАЛЫ</span><h2>Все 30 дней</h2><p>Нажми любой день. Урок откроется на весь экран, а полный эталонный код будет только в самом конце.</p></div><button class="section-toggle" id="daysCollapse">Свернуть</button></div><div id="daysBody"><div class="day-grid" id="dayGrid"></div></div></section>
 <section class="section" id="catalog"><div class="section-head"><span>СПРАВОЧНИК</span><h2>Каталог команд</h2><p>Не просто список: что означает команда, когда использовать, куда вставлять, короткий пример и типичная ошибка.</p></div><div class="catalog-tools"><button class="catalog-collapse" id="catalogCollapse">Свернуть каталог</button><input id="catalogSearch" type="search" placeholder="Например: h1, img, flex, grid, querySelector…"><div class="tabs"><button class="tab active" data-cat="HTML">HTML</button><button class="tab" data-cat="CSS">CSS</button><button class="tab" data-cat="JS">JavaScript</button></div></div><div id="catalogBody"><div id="catalogList" class="catalog-list"></div></div></section>
 <section class="section" id="lab"><div class="section-head"><span>ПРАКТИКА</span><h2>Code Lab</h2><p>Можно собрать комбинацию из урока, увидеть результат и получить базовую диагностику. Это учебная площадка, а не замена VS Code.</p></div><div class="lab-tabs"><button class="lab-tab active" data-editor="html">HTML</button><button class="lab-tab" data-editor="css">CSS</button><button class="lab-tab" data-editor="js">JavaScript</button></div><div class="lab-grid"><div class="editors"><div class="editor-pane active" data-pane="html"><textarea id="labHtml" spellcheck="false"></textarea></div><div class="editor-pane" data-pane="css"><textarea id="labCss" spellcheck="false"></textarea></div><div class="editor-pane" data-pane="js"><textarea id="labJs" spellcheck="false"></textarea></div><div class="lab-actions"><button class="primary" id="runLab">▶ Запустить и проверить</button><button class="ghost" id="exampleLab">Загрузить пример</button><button class="ghost" id="clearLab">Очистить</button></div></div><div class="preview-box"><div class="preview-head"><b>Результат</b><span id="labStatus">Готово</span></div><iframe id="labPreview" title="Предпросмотр" sandbox="allow-scripts"></iframe><div id="labDiagnostics" class="diagnostics"><div class="empty">После запуска здесь появятся ошибки и способы исправления.</div></div></div></div></section>
@@ -33,6 +83,6 @@
     <div class="lesson-bottom"><button class="ghost" id="prevDay">← Предыдущий</button><button class="primary" id="completeDay">Отметить ✓</button><button class="ghost" id="nextDay">Следующий →</button></div>
   </div>
 </section>
-<script src="course-data.js"></script><script src="app.js"></script>
+<script src="auth.js"></script><script src="course-data.js"></script><script src="deep-guides.js"></script><script src="app.js"></script>
 </body>
 </html>

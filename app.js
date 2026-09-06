@@ -2,16 +2,19 @@
 const DATA=window.COURSE_DATA;
 if(!DATA||!Array.isArray(DATA.lessons)||DATA.lessons.length!==30){document.body.insertAdjacentHTML('afterbegin','<div class="fatal">Не загружены 30 уроков. Проверь course-data.js.</div>');return;}
 const lessons=DATA.lessons, catalog=DATA.catalog||{}, resources=DATA.resources||[], phases=DATA.phases||[];
-const KEY='raw_code_teacher_v6', LABKEY='raw_lab_teacher_v6';
+const USER=(window.RAW_AUTH_USER||'guest').toLowerCase().replace(/[^a-z0-9_-]/g,'_');
+const KEY='raw_code_teacher_v10_'+USER, LABKEY='raw_lab_teacher_v10_'+USER;
 let state=(()=>{try{return {...{currentDay:1,completed:[],cat:'HTML',catalogOpen:true,daysOpen:true}, ...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{return{currentDay:1,completed:[],cat:'HTML',catalogOpen:true,daysOpen:true}}})();
 let current=state.currentDay||1;
 let lessonStep=0;
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
-function update(){const n=state.completed.length,p=n/30*100;$('#progressText').textContent=Math.round(p)+'%';$('#progressBar').style.width=p+'%';$('#progressSub').textContent=`${n} из 30 дней`;}
+function update(){const n=state.completed.length,p=n/30*100;$('#progressText').textContent=Math.round(p)+'%';$('#progressBar').style.width=p+'%';$('#progressSub').textContent=`${n} из 30 дней`;$('#completedDaysBig').textContent=n;}
 function renderNav(){$('#dayNav').innerHTML=lessons.map(l=>`<button class="day-link ${current===l.day?'active':''} ${state.completed.includes(l.day)?'done':''}" data-day="${l.day}"><span class="day-num">${String(l.day).padStart(2,'0')}</span><span class="day-link-title">Day ${String(l.day).padStart(2,'0')} · ${esc(l.title)}</span></button>`).join('');}
-function renderDays(){$('#dayGrid').innerHTML=lessons.map(l=>`<button class="day-card" data-day="${l.day}"><div class="day-card-top"><span class="day-card-num">DAY ${String(l.day).padStart(2,'0')}</span><span class="day-card-status">${state.completed.includes(l.day)?'✓ ГОТОВО':'УРОК'}</span></div><h3>${esc(l.title)}</h3><p>${esc(l.goal)}</p><small>${(l.microsteps||[]).length} микро-шагов · ${esc(l.duration||'≈ 45–60 минут')}</small></button>`).join('');}
+function shortCode(l){const s=(l.microsteps||[])[0];if(!s)return 'Самостоятельный проект';return s.code||s.instruction||'';}
+function renderDays(){$('#dayGrid').innerHTML=lessons.map(l=>{const done=state.completed.includes(l.day);return `<article class="day-card"><button class="day-card-main" data-day="${l.day}"><div class="day-card-top"><span class="day-card-num">DAY ${String(l.day).padStart(2,'0')}</span><span class="day-card-status">${done?'✓ ГОТОВО':'УРОК'}</span></div><h3>${esc(l.title)}</h3><p>${esc(l.goal)}</p><small>${(l.microsteps||[]).length} шагов · ${esc(l.duration||'≈ 45–60 минут')}</small></button><details class="day-code-spoiler"><summary>Код дня</summary><div class="day-code-note">${esc((l.microsteps||[])[0]?.area||'Код')} · первый фрагмент</div><pre>${esc(shortCode(l))}</pre><button class="day-open" data-day="${l.day}">Открыть урок →</button></details></article>`;}).join('');} 
+
 function renderRoadmap(){$('#roadmapGrid').innerHTML=lessons.map(l=>`<button class="roadmap-item" data-day="${l.day}"><strong>${String(l.day).padStart(2,'0')}</strong><b>${esc(l.title)}</b></button>`).join('');$('#phaseGrid').innerHTML=phases.map(p=>`<article class="phase-card"><b>${esc(p.name)}</b><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p></article>`).join('');}
 function renderCatalog(){const q=($('#catalogSearch').value||'').toLowerCase().trim();const arr=(catalog[state.cat]||[]).filter(x=>x.join(' ').toLowerCase().includes(q));$('#catalogList').innerHTML=arr.length?arr.map(x=>`<article class="catalog-item"><div class="catalog-command"><code>${esc(x[0])}</code></div><div class="catalog-info"><p><b>Что означает:</b> ${esc(x[1])}</p><p><b>Когда использовать:</b> ${esc(x[2])}</p><p><b>Как вставить:</b> ${esc(x[4])}</p><div class="catalog-example"><b>Пример:</b><pre>${esc(x[3])}</pre></div><p><b>Типичная ошибка / совет:</b> ${esc(x[5])}</p></div></article>`).join(''):'<div class="empty">Ничего не найдено.</div>';$$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.cat===state.cat));}
 function renderResources(){$('#resourcesGrid').innerHTML=resources.map(x=>`<a class="resource" href="${esc(x.url||x[2]||'#')}" target="_blank" rel="noopener"><b>${esc(x.title||x[0])}</b><span>${esc(x.desc||x[1])}</span></a>`).join('');}
@@ -49,8 +52,23 @@ function getVariants(l){
   }
   return [];
 }
-function variantsBlock(l){const v=getVariants(l);if(!v.length)return '';return `<section class="lesson-block choice-block"><div class="block-kicker">03 · ВЫБЕРИ ВАРИАНТ</div><h3>Не всё нужно делать одинаково</h3><p class="muted">Выбери один способ для сегодняшней задачи. Потом можешь вернуться и попробовать второй.</p><div class="choice-grid">${v.map((x,i)=>`<button class="choice-card ${i===0?'selected':''}" data-choice="${i}"><span>ВАРИАНТ ${i+1}</span><strong>${esc(x.name)}</strong><em>${esc(x.desc)}</em><code>${esc(x.code)}</code><small>${esc(x.note)}</small></button>`).join('')}</div><div class="choice-result" id="choiceResult">Выбран вариант 1: ${esc(v[0].name)}. Сначала попробуй его руками.</div></section>`;}
+function variantsBlock(l){const v=getVariants(l);if(!v.length)return '';return `<section class="lesson-block choice-block"><div class="block-kicker">04 · ВЫБЕРИ ВАРИАНТ</div><h3>Не всё нужно делать одинаково</h3><p class="muted">Выбери один способ для сегодняшней задачи. Потом можешь вернуться и попробовать второй.</p><div class="choice-grid">${v.map((x,i)=>`<button class="choice-card ${i===0?'selected':''}" data-choice="${i}"><span>ВАРИАНТ ${i+1}</span><strong>${esc(x.name)}</strong><em>${esc(x.desc)}</em><code>${esc(x.code)}</code><small>${esc(x.note)}</small></button>`).join('')}</div><div class="choice-result" id="choiceResult">Выбран вариант 1: ${esc(v[0].name)}. Сначала попробуй его руками.</div></section>`;}
+function deepGuideBlock(l){const g=l.deepGuide;if(!g)return '';const map=(g.projectMap||[]).map(x=>`<div class="file-map-item"><code>${esc(x[0])}</code><div><b>${esc(x[1])}</b><p>${esc(x[2])}</p></div></div>`).join('');const terms=(g.terms||[]).map(x=>`<div class="term-row"><code>${esc(x[0])}</code><p>${esc(x[1])}</p></div>`).join('');const loop=(g.testLoop||[]).map((x,i)=>`<li><b>${i+1}.</b> ${esc(x)}</li>`).join('');return `<section class="lesson-block deep-block"><div class="block-kicker">02 · КАК УСТРОЕН САЙТ</div><h3>Что куда помещаем и зачем</h3><p class="deep-lead">${esc(g.why)}</p><div class="file-map">${map}</div><div class="deep-columns"><div><h4>Термины сегодняшнего дня</h4><div class="terms">${terms}</div></div><div><h4>Как связать HTML, CSS и JS</h4><p>${esc(g.cssConnection)}</p><p>${esc(g.jsConnection)}</p></div></div><div class="deep-plan"><h4>Точная схема работы</h4><ol>${loop}</ol></div><div class="deep-note"><b>Главная мысль</b><p>${esc(g.mini)}</p></div></section>`;}
 
+function connectionCodeBlock(l){
+  const steps=l.microsteps||[];
+  const htmlStep=steps.find(s=>String(s.area||'').toUpperCase()==='HTML');
+  const cssStep=steps.find(s=>String(s.area||'').toUpperCase()==='CSS');
+  const jsStep=steps.find(s=>String(s.area||'').toUpperCase().includes('JS'));
+  const parts=[];
+  if(htmlStep) parts.push({name:'HTML',code:htmlStep.code,explain:'Создаём элемент или структуру. Это то, что существует на странице.'});
+  if(cssStep) parts.push({name:'CSS',code:cssStep.code,explain:'Находим элемент через тег, class или id и задаём ему внешний вид.'});
+  if(jsStep) parts.push({name:'JavaScript',code:jsStep.code,explain:'Находим уже существующий элемент, реагируем на действие и меняем состояние.'});
+  if(!parts.length)return '';
+  const cards=parts.map((x,i)=>`<div class="connection-code-card"><div class="connection-code-head"><span>${String(i+1).padStart(2,'0')}</span><b>${esc(x.name)}</b></div><pre>${esc(x.code||'')}</pre><p>${esc(x.explain)}</p></div>`).join('<div class="connection-arrow">→</div>');
+  const result=(l.combination_explain||l.connect||'Эти части остаются в одном проекте и работают вместе.');
+  return `<section class="lesson-block connection-code-block"><div class="block-kicker">04 · СВЯЗКА КОДА</div><h3>Написал → подключил → получил результат</h3><p class="connection-intro">Смотри не на три отдельных файла, а на цепочку: <b>HTML создаёт</b> → <b>CSS оформляет</b> → <b>JavaScript управляет</b>. Если сегодняшняя задача не использует все три, показываем только нужные.</p><div class="connection-code-flow">${cards}</div><div class="connection-result"><b>Что получилось</b><p>${esc(result)}</p></div></section>`;
+}
 function openLesson(day){
   const l=lessons.find(x=>x.day===day); if(!l)return;
   current=day; lessonStep=0; state.currentDay=day; save(); update(); renderNav();
@@ -70,20 +88,22 @@ function openLesson(day){
       <h3>Иди сверху вниз. Не перескакивай.</h3>
       <div class="order-list" id="orderList">${order}</div>
     </section>
+    ${deepGuideBlock(l)}
     <section class="lesson-block current-step-block">
       <div class="step-counter" id="stepCounter"></div>
       <div id="currentStep"></div>
       <div class="step-nav"><button class="ghost" id="stepPrev">← Назад</button><button class="primary" id="stepNext">Следующий шаг →</button></div>
     </section>
+    ${connectionCodeBlock(l)}
     ${variantsBlock(l)}
     <section class="lesson-block result-block">
-      <div class="block-kicker">03 · РЕЗУЛЬТАТ</div>
+      <div class="block-kicker">05 · РЕЗУЛЬТАТ</div>
       <h3>Что должно быть после всего урока</h3>
       <p>${esc(l.expected||'Открой страницу в Chrome и проверь результат.')}</p>
       <ul class="result-list">${(l.concepts||[]).slice(0,5).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
     </section>
     <section class="lesson-block combine-block">
-      <div class="block-kicker">04 · СВЯЗЫВАЕМ</div>
+      <div class="block-kicker">06 · СВЯЗЫВАЕМ</div>
       <h3>${esc(l.combination_title||'Как части работают вместе')}</h3>
       <div class="chain-simple">
         <div><b>HTML</b><span>создаёт блок</span></div><i>→</i>
@@ -95,13 +115,13 @@ function openLesson(day){
       <div class="mini-result"><iframe id="lessonPreview" title="Результат урока" sandbox="allow-scripts"></iframe></div>
     </section>
     <section class="lesson-block check-block">
-      <div class="block-kicker">05 · ПРОВЕРКА</div>
+      <div class="block-kicker">07 · ПРОВЕРКА</div>
       <h3>Перед следующим днём</h3>
       <ul class="check-list"><li>☐ Можешь объяснить, что написал</li><li>☐ Можешь повторить без подсказки</li><li>☐ Понимаешь, с чем связан этот код</li></ul>
       <div class="challenge"><b>Самостоятельно:</b><p>${esc(l.challenge||'Повтори результат без подсказки и измени одну деталь.')}</p></div>
     </section>
     <section class="lesson-block reference-block">
-      <div class="block-kicker">06 · ТОЛЬКО ПОСЛЕ ПОПЫТКИ</div>
+      <div class="block-kicker">08 · ЭТАЛОН В КОНЦЕ</div>
       <details class="code-reveal"><summary>Показать эталонный код</summary><pre>${esc(l.code||'')}</pre></details>
       <p class="muted">После курса этот урок можно открыть снова и пройти те же действия с нуля.</p>
     </section>`;

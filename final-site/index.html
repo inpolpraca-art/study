@@ -1,11 +1,69 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Учебный итоговый сайт RAW CODE — ресторанный лендинг."><title>Maison — итоговый проект RAW CODE</title><link rel="stylesheet" href="styles.css"></head><body>
-<header class="site-header"><a class="logo" href="#top">MAISON<span>.</span></a><nav><a href="#about">О нас</a><a href="#menu">Меню</a><a href="#gallery">Галерея</a><a href="#reviews">Отзывы</a><a href="#contact">Контакты</a></nav><button class="menu" id="menuBtn" aria-label="Открыть меню">☰</button></header>
-<main id="top">
-<section class="hero"><div class="hero-overlay"></div><div class="hero-content"><p class="eyebrow">RESTAURANT · WARSAW</p><h1>Вкус, который<br><em>остаётся.</em></h1><p>Пример итогового сайта, который собирается в течение курса: HTML-структура, CSS-дизайн, адаптация и JavaScript.</p><a class="btn" href="#menu">Посмотреть меню</a></div></section>
-<section class="section split" id="about"><div><p class="eyebrow">01 · О НАС</p><h2>Простая структура.<br>Сильный результат.</h2></div><div><p>Здесь объединены те же принципы, которые изучаются в RAW CODE: семантический HTML, понятные классы, контейнер, Flexbox, Grid, фоновые изображения, адаптивность и небольшие интерактивные элементы.</p></div></section>
-<section class="section" id="menu"><div class="section-head"><p class="eyebrow">02 · МЕНЮ</p><h2>Наши блюда</h2></div><div class="cards"><article><span>01</span><h3>Truffle Pasta</h3><p>Паста, трюфель, пармезан.</p><b>48 zł</b></article><article><span>02</span><h3>Steak Maison</h3><p>Говядина, соус, сезонные овощи.</p><b>76 zł</b></article><article><span>03</span><h3>Sea Bass</h3><p>Сибас, лимон, зелень.</p><b>59 zł</b></article></div></section>
-<section class="photo-band"><div><p class="eyebrow">03 · ATMOSPHERE</p><h2>Фотография + текстовый блок</h2></div></section>
-<section class="section" id="gallery"><div class="section-head"><p class="eyebrow">04 · ГАЛЕРЕЯ</p><h2>Внутри пространства</h2></div><div class="gallery"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80" alt="Интерьер ресторана"><img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1200&q=80" alt="Блюдо на столе"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80" alt="Стол в ресторане"></div></section>
-<section class="section" id="reviews"><div class="section-head"><p class="eyebrow">05 · ОТЗЫВЫ</p><h2>Гости говорят</h2></div><div class="reviews"><blockquote>“Очень спокойное место и сильная кухня.”<cite>— Anna</cite></blockquote><blockquote>“Именно тот случай, когда дизайн соответствует атмосфере.”<cite>— Marek</cite></blockquote><blockquote>“Вернёмся ещё раз.”<cite>— Julia</cite></blockquote></div></section>
-<section class="section contact" id="contact"><div><p class="eyebrow">06 · КОНТАКТ</p><h2>Забронировать стол</h2><p>Форма — пример того, как HTML-форма соединяется с JavaScript.</p></div><form id="contactForm"><label>Имя<input id="name" required placeholder="Ваше имя"></label><label>Email<input id="email" type="email" required placeholder="you@example.com"></label><label>Сообщение<textarea id="message" required placeholder="Дата и количество гостей"></textarea></label><button class="btn" type="submit">Отправить</button><p class="form-message" id="formMessage"></p></form></section>
-</main><footer>MAISON · RAW CODE final project · <a href="../index.html">Вернуться к курсу</a></footer><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Итоговый учебный проект RAW CODE — современный сайт ресторана с меню, галереей, отзывами, контактами и интерактивными элементами.">
+<title>MAISON — ресторан | RAW CODE Final</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header" id="top">
+  <a class="logo" href="#top">MAISON<span>.</span></a>
+  <nav class="site-nav" id="siteNav" aria-label="Основная навигация">
+    <a href="#about">О нас</a><a href="#menu">Меню</a><a href="#story">Атмосфера</a><a href="#gallery">Галерея</a><a href="#reviews">Отзывы</a><a href="#contact">Контакты</a>
+  </nav>
+  <a class="header-btn" href="#contact">Забронировать</a>
+  <button class="menu" id="menuBtn" aria-label="Открыть меню" aria-expanded="false">☰</button>
+</header>
+<main>
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="eyebrow">RESTAURANT · WARSAW · 2026</p>
+    <h1>Вкус, который<br><em>остаётся.</em></h1>
+    <p>Современная кухня, сезонные продукты и спокойная атмосфера в центре города. Этот сайт — пример того, к чему приводит пошаговое изучение HTML, CSS и JavaScript.</p>
+    <div class="hero-actions"><a class="btn" href="#menu">Посмотреть меню</a><a class="text-link" href="#about">Узнать больше ↓</a></div>
+  </div>
+</section>
+<section class="section split" id="about">
+  <div><p class="eyebrow">01 · О НАС</p><h2>Простая структура.<br>Сильный результат.</h2></div>
+  <div><p class="lead">MAISON соединяет сезонные продукты, открытый огонь и современную подачу. В центре концепции — понятные блюда без лишнего шума.</p><p>Здесь специально показана большая секция: container, две колонки, типографика и адаптация под телефон.</p><div class="facts"><div><b>12</b><span>лет опыта</span></div><div><b>28</b><span>блюд в меню</span></div><div><b>7/7</b><span>дней в неделю</span></div></div></div>
+</section>
+<section class="section menu-section" id="menu">
+  <div class="section-head-row"><div><p class="eyebrow">02 · МЕНЮ</p><h2>Из кухни MAISON</h2><p class="muted">Шесть примеров карточек. Их можно расширять данными и фильтровать через JavaScript.</p></div><div class="filters"><button class="filter active" data-filter="all">Все</button><button class="filter" data-filter="main">Основное</button><button class="filter" data-filter="dessert">Десерты</button></div></div>
+  <div class="cards" id="menuGrid">
+    <article class="menu-card" data-category="main"><span>01 · MAIN</span><h3>Truffle Pasta</h3><p>Домашняя паста, чёрный трюфель, пармезан.</p><b>48 zł</b></article>
+    <article class="menu-card" data-category="main"><span>02 · MAIN</span><h3>Steak Maison</h3><p>Говядина, соус из печёного перца, овощи.</p><b>76 zł</b></article>
+    <article class="menu-card" data-category="main"><span>03 · MAIN</span><h3>Sea Bass</h3><p>Сибас, лимон, зелень, молодой картофель.</p><b>59 zł</b></article>
+    <article class="menu-card" data-category="main"><span>04 · MAIN</span><h3>Wild Mushroom</h3><p>Грибы, крем из сельдерея, травы и масло.</p><b>42 zł</b></article>
+    <article class="menu-card" data-category="dessert"><span>05 · DESSERT</span><h3>Maison Tiramisu</h3><p>Маскарпоне, кофе, какао и хрустящий бисквит.</p><b>24 zł</b></article>
+    <article class="menu-card" data-category="dessert"><span>06 · DESSERT</span><h3>Lemon Tart</h3><p>Лимонный крем, меренга и песочная основа.</p><b>22 zł</b></article>
+  </div>
+</section>
+<section class="photo-band" id="story"><div><p class="eyebrow">03 · ATMOSPHERE</p><h2>Фотография + блок текста + правильный контраст.</h2><p>Фото является фоном, текст находится поверх него, а затемнение делает заголовок читаемым.</p></div></section>
+<section class="section" id="gallery">
+  <div class="section-head"><p class="eyebrow">04 · ГАЛЕРЕЯ</p><h2>Внутри пространства</h2></div>
+  <div class="gallery">
+    <button class="gallery-item"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80" alt="Интерьер ресторана"><span>01</span></button>
+    <button class="gallery-item"><img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1200&q=80" alt="Блюдо на столе"><span>02</span></button>
+    <button class="gallery-item"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80" alt="Стол в ресторане"><span>03</span></button>
+    <button class="gallery-item"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80" alt="Зал ресторана"><span>04</span></button>
+    <button class="gallery-item"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80" alt="Блюдо кухни"><span>05</span></button>
+    <button class="gallery-item"><img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=80" alt="Интерьер и столы"><span>06</span></button>
+  </div>
+</section>
+<section class="section dark-section" id="reviews">
+  <div class="section-head"><p class="eyebrow">05 · ОТЗЫВЫ</p><h2>Гости говорят</h2></div>
+  <div class="reviews"><blockquote>«Очень спокойное место и сильная кухня.»<cite>— Anna · Warszawa</cite></blockquote><blockquote>«Дизайн соответствует атмосфере. Всё продумано.»<cite>— Marek · Mokotów</cite></blockquote><blockquote>«Вернёмся ради пасты и десерта.»<cite>— Julia · Centrum</cite></blockquote><blockquote>«Отличное место для длинного ужина.»<cite>— Tomasz · Wilanów</cite></blockquote></div>
+</section>
+<section class="section contact" id="contact">
+  <div><p class="eyebrow">06 · КОНТАКТ</p><h2>Забронировать стол</h2><p class="lead">Пятница и суббота быстро заполняются. Оставь заявку — это учебная форма, поэтому после отправки она покажет сообщение прямо на странице.</p><div class="contact-list"><div><b>Адрес</b><span>ul. Przykładowa 18, Warszawa</span></div><div><b>Телефон</b><span>+48 600 000 000</span></div><div><b>Часы</b><span>Пн–Чт 12:00–22:00 · Пт–Сб 12:00–23:00 · Вс 12:00–21:00</span></div></div></div>
+  <form id="contactForm"><label for="name">Имя<input id="name" required placeholder="Ваше имя"></label><label for="email">Email<input id="email" type="email" required placeholder="you@example.com"></label><label for="guests">Гости<select id="guests"><option>2 человека</option><option>3 человека</option><option>4 человека</option><option>5+ человек</option></select></label><label for="message">Сообщение<textarea id="message" required placeholder="Дата, время и пожелания"></textarea></label><button class="btn" type="submit">Отправить заявку</button><p class="form-message" id="formMessage" aria-live="polite"></p></form>
+</section>
+</main>
+<footer><div><a class="logo" href="#top">MAISON<span>.</span></a><p>Сделано как итоговый пример курса RAW CODE.</p></div><div class="footer-links"><a href="#about">О нас</a><a href="#menu">Меню</a><a href="#gallery">Галерея</a><a href="#contact">Контакты</a></div><a class="back-course" href="../index.html">← Вернуться к курсу</a></footer>
+<div class="lightbox" id="lightbox" aria-hidden="true"><button id="closeLightbox" aria-label="Закрыть">×</button><img id="lightboxImg" alt=""></div>
+<script src="script.js" defer></script>
+</body>
+</html>
